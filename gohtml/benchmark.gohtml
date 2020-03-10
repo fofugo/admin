@@ -1,0 +1,49 @@
+{{define "benchmark"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
+{{range $benchmark := .Benchmarks}}
+  <form action="/benchmark" method="post">
+    <h1>Title</h1>
+    <input type="number" name="id" value={{$benchmark.Id}}>
+    <div style="border: 4px dashed #bcbcbc;">
+      {{$benchmark.Title}}
+      <p></p>
+      <input type="text" name="title" size="100">
+    </div>
+    <h1>Content</h1>
+    <div style="border: 4px dashed #222222;">
+      {{$benchmark.Content}}
+      <p></p>
+      <input type="text" name="content" size="1000">
+    </div>
+    <button type='submit'>
+      submit
+    </button>
+    <hr>
+  </form>
+{{end}}
+  <form action="/benchmark" method="post">
+    <h1>Title</h1>
+    <input type="number" name="benchmark-id" value={{.Id}}>
+    <p></p>
+    <input type="text" name="title" size="100">
+    <h1>Content</h1>
+    <p></p>
+    <input type="text" name="content" size="1000">
+    <button type='submit'>
+      submit
+    </button>
+    <hr>
+  </form>
+</body>
+</html>
+{{end}}
