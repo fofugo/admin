@@ -1,8 +1,8 @@
-{{define "benchmark"}}
+{{define "echo"}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>fofugo benchmark</title>
+  <title>fofugo echo</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/css/bootstrap.css">
@@ -10,19 +10,19 @@
   <script src="/js/bootstrap.js"></script>
 </head>
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
-{{$Id := .Id}}
-{{range $benchmark := .Benchmarks}}
-  <form action="/benchmark/{{$Id}}" method="post" >
+{{$No := .No}}
+{{range $echoBoard := .EchoBoards}}
+  <form action="/echo/{{$No}}" method="post" >
     <h1>Title</h1>
-    <input type="number" name="id" value={{$benchmark.Id}}>
+    <input type="number" name="id" value={{$echoBoard.Id}}>
     <div style="border: 4px dashed #bcbcbc;">
-      {{$benchmark.Title}}
+      {{$echoBoard.Title}}
       <p></p>
       <input type="text" name="title" size="100">
     </div>
     <h1>Content</h1>
     <div style="border: 4px dashed #222222;">
-      {{$benchmark.Content}}
+      {{$echoBoard.Content}}
       <p></p>
       <input type="text" name="content" size="1000">
     </div>
@@ -32,9 +32,9 @@
     <hr>
   </form>
 {{end}}
-  <form action="/benchmark/{{$Id}}" method="post" >
+  <form action="/echo/{{$No}}" method="post" >
     <h1>Title</h1>
-    <input type="number" name="benchmark-id" value={{.Id}}>
+    <input type="number" name="no" value={{.No}}>
     <p></p>
     <input type="text" name="title" size="100">
     <h1>Content</h1>

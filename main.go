@@ -3,7 +3,9 @@ package main
 import (
 	"admin/config"
 	"admin/handler/benchmark"
+	echoH "admin/handler/echo"
 	"admin/middleware"
+
 	"os"
 	"time"
 
@@ -39,10 +41,10 @@ func main() {
 		Dialect:  "mysql",
 		Host:     "127.0.0.1",
 		Port:     "3306",
-		Username: "",
-		Password: "",
-		Name:     "",
-		Charset:  "",
+		Username: "dongjulee",
+		Password: "djfrnf081@",
+		Name:     "fofu",
+		Charset:  "utf8",
 	}
 	db := config.DB{}
 	if err := db.Initialize(dbConfig); err != nil {
@@ -59,5 +61,7 @@ func main() {
 	e.Static("/", "assets")
 	e.GET("/benchmark/:id", benchmark.BenchmarkHandler)
 	e.POST("/benchmark", benchmark.AddHandler)
+	e.GET("/echo/:no", echoH.EchoHandler)
+	e.POST("/echo", echoH.AddHandler)
 	e.Logger.Fatal(e.Start(":1323"))
 }
