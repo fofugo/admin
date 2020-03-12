@@ -2,7 +2,6 @@ package echo
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -11,6 +10,7 @@ import (
 
 type echoTemplate struct {
 	No         int
+	Context    string
 	EchoBoards []echoBoard
 }
 type echoBoard struct {
@@ -37,6 +37,10 @@ func EchoHandler(c echo.Context) error {
 	if err := db.Ping(); err != nil {
 		panic(err)
 	}
+
+	if err := db.QueryRow("SELECT context FROM echo_board_no WHERE no=?", input.No).Scan(&echoTemplate.Context); err != nil {
+		panic(err)
+	}
 	rows, err := db.Query("SELECT id, title, content FROM echo_board WHERE no = ?", input.No)
 	if err != nil {
 		panic(err)
@@ -49,6 +53,5 @@ func EchoHandler(c echo.Context) error {
 	}
 
 	echoTemplate.No = input.No
-	fmt.Println(echoTemplate)
 	return c.Render(http.StatusOK, "echo", echoTemplate)
 }

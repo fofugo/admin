@@ -9,7 +9,8 @@ import (
 )
 
 type BenchmarkTemplate struct {
-	Id         int
+	No         int
+	Context    string
 	Benchmarks []Benchmark
 }
 type Benchmark struct {
@@ -19,11 +20,11 @@ type Benchmark struct {
 }
 
 func BenchmarkHandler(c echo.Context) error {
-	type Input struct {
-		Id int `validate:"required" param:"id"`
+	type request struct {
+		No int `validate:"required" param:"no"`
 	}
 	var benchmarkTemplate BenchmarkTemplate
-	input := Input{}
+	input := request{}
 	if err := c.Bind(&input); err != nil {
 		panic(err)
 	}
@@ -36,8 +37,10 @@ func BenchmarkHandler(c echo.Context) error {
 	if err := db.Ping(); err != nil {
 		panic(err)
 	}
-	benchmarkTemplate.Id = input.Id
-	rows, err := db.Query("SELECT id, title, content FROM benchmark WHERE benchmark_id=?", input.Id)
+	if err := db.QueryRow("SELECT context FROM benchmark_no WHERE no=?", input.No).Scan(&benchmarkTemplate.Context); err != nil {
+		panic(err)
+	}
+	rows, err := db.Query("SELECT id, title, content FROM benchmark WHERE no=?", input.No)
 	if err != nil {
 		panic(err)
 	}
@@ -48,5 +51,6 @@ func BenchmarkHandler(c echo.Context) error {
 		benchmarkTemplate.Benchmarks = append(benchmarkTemplate.Benchmarks, benchmark)
 	}
 
+	benchmarkTemplate.No = input.No
 	return c.Render(http.StatusOK, "benchmark", benchmarkTemplate)
 }

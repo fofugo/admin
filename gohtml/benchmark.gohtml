@@ -10,9 +10,10 @@
   <script src="/js/bootstrap.js"></script>
 </head>
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
-{{$Id := .Id}}
+{{$No := .No}}
+{{$Context := .Context}}
 {{range $benchmark := .Benchmarks}}
-  <form action="/benchmark/{{$Id}}" method="post" >
+  <form action="/benchmark" method="post" >
     <h1>Title</h1>
     <input type="number" name="id" value={{$benchmark.Id}}>
     <div style="border: 4px dashed #bcbcbc;">
@@ -32,9 +33,20 @@
     <hr>
   </form>
 {{end}}
-  <form action="/benchmark/{{$Id}}" method="post" >
+  <form action="/benchmark/context" method="post" >
+    <h1>Context</h1>
+    <p>{{$Context}}</p>
+    <input type="number" name="no" value={{$No}}>
+    <p></p>
+    <input type="text" name="context" size="1000">
+    <button type='submit'>
+      submit
+    </button>
+    <hr>
+  </form>
+  <form action="/benchmark" method="post" >
     <h1>Title</h1>
-    <input type="number" name="benchmark-id" value={{.Id}}>
+    <input type="number" name="no" value={{$No}}>
     <p></p>
     <input type="text" name="title" size="100">
     <h1>Content</h1>

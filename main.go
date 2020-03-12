@@ -25,7 +25,6 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 // ---------------------------------------------------------------------
-
 func main() {
 	e := echo.New()
 	t := time.Now()
@@ -57,11 +56,13 @@ func main() {
 	}
 	e.Renderer = template
 
-	// 첫 화면
+	//첫 화면
 	e.Static("/", "assets")
-	e.GET("/benchmark/:id", benchmark.BenchmarkHandler)
-	e.POST("/benchmark", benchmark.AddHandler)
+	e.GET("/benchmark/:no", benchmark.BenchmarkHandler)
+	e.POST("/benchmark", benchmark.AddBenchmarkHandler)
+	e.POST("/benchmark/context", benchmark.AddBenchmarkContextHandler)
 	e.GET("/echo/:no", echoH.EchoHandler)
-	e.POST("/echo", echoH.AddHandler)
+	e.POST("/echo", echoH.AddEchoHandler)
+	e.POST("/echo/context", echoH.AddEchoContextHandler)
 	e.Logger.Fatal(e.Start(":1323"))
 }

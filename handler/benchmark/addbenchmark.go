@@ -1,4 +1,4 @@
-package echo
+package benchmark
 
 import (
 	"database/sql"
@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func AddHandler(c echo.Context) error {
+func AddBenchmarkHandler(c echo.Context) error {
 	type Input struct {
 		Id      int    `form:"id"`
 		No      int    `form:"no"`
@@ -22,24 +22,25 @@ func AddHandler(c echo.Context) error {
 	if err := db.Ping(); err != nil {
 		panic(err)
 	}
+
 	if input.Id != 0 {
 		if input.Title != "" {
-			if _, err := db.Exec("UPDATE echo_board SET title = ? WHERE id = ?", input.Title, input.Id); err != nil {
+			if _, err := db.Exec("UPDATE benchmark SET title = ? WHERE id = ?", input.Title, input.Id); err != nil {
 				panic(err)
 			}
 		}
 		if input.Content != "" {
-			if _, err := db.Exec("UPDATE echo_board SET content = ? WHERE id = ?", input.Content, input.Id); err != nil {
+			if _, err := db.Exec("UPDATE benchmark SET content = ? WHERE id = ?", input.Content, input.Id); err != nil {
 				panic(err)
 			}
 		}
 	} else {
 		if input.No != 0 {
-			if _, err := db.Exec("INSERT INTO echo_board (no,title,content) VALUES (?,?,?)", input.No, input.Title, input.Content); err != nil {
+			if _, err := db.Exec("INSERT INTO benchmark (no,title,content) VALUES (?,?,?)", input.No, input.Title, input.Content); err != nil {
 				panic(err)
 			}
 		}
 	}
 
-	return c.Render(http.StatusOK, "echo", nil)
+	return c.Render(http.StatusOK, "benchmark", nil)
 }

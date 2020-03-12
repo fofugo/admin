@@ -11,8 +11,9 @@
 </head>
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
 {{$No := .No}}
+{{$Context := .Context}}
 {{range $echoBoard := .EchoBoards}}
-  <form action="/echo/{{$No}}" method="post" >
+  <form action="/echo" method="post" >
     <h1>Title</h1>
     <input type="number" name="id" value={{$echoBoard.Id}}>
     <div style="border: 4px dashed #bcbcbc;">
@@ -32,9 +33,20 @@
     <hr>
   </form>
 {{end}}
-  <form action="/echo/{{$No}}" method="post" >
+  <form action="/echo/context" method="post" >
+    <h1>Context</h1>
+    <p>{{$Context}}</p>
+    <input type="number" name="no" value={{$No}}>
+    <p></p>
+    <input type="text" name="context" size="1000">
+    <button type='submit'>
+      submit
+    </button>
+    <hr>
+  </form>
+  <form action="/echo" method="post" >
     <h1>Title</h1>
-    <input type="number" name="no" value={{.No}}>
+    <input type="number" name="no" value={{$No}}>
     <p></p>
     <input type="text" name="title" size="100">
     <h1>Content</h1>
