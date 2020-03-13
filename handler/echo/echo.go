@@ -38,9 +38,8 @@ func EchoHandler(c echo.Context) error {
 		panic(err)
 	}
 
-	if err := db.QueryRow("SELECT context FROM echo_board_no WHERE no=?", input.No).Scan(&echoTemplate.Context); err != nil {
-		panic(err)
-	}
+	_ = db.QueryRow("SELECT context FROM echo_board_no WHERE no=?", input.No).Scan(&echoTemplate.Context)
+
 	rows, err := db.Query("SELECT id, title, content FROM echo_board WHERE no = ?", input.No)
 	if err != nil {
 		panic(err)

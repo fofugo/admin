@@ -37,9 +37,8 @@ func BenchmarkHandler(c echo.Context) error {
 	if err := db.Ping(); err != nil {
 		panic(err)
 	}
-	if err := db.QueryRow("SELECT context FROM benchmark_no WHERE no=?", input.No).Scan(&benchmarkTemplate.Context); err != nil {
-		panic(err)
-	}
+	_ = db.QueryRow("SELECT context FROM benchmark_no WHERE no=?", input.No).Scan(&benchmarkTemplate.Context)
+
 	rows, err := db.Query("SELECT id, title, content FROM benchmark WHERE no=?", input.No)
 	if err != nil {
 		panic(err)
@@ -50,7 +49,6 @@ func BenchmarkHandler(c echo.Context) error {
 		rows.Scan(&benchmark.Id, &benchmark.Title, &benchmark.Content)
 		benchmarkTemplate.Benchmarks = append(benchmarkTemplate.Benchmarks, benchmark)
 	}
-
 	benchmarkTemplate.No = input.No
 	return c.Render(http.StatusOK, "benchmark", benchmarkTemplate)
 }
